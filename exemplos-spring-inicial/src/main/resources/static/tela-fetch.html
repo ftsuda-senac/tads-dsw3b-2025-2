@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemplo acesso via Fetch API</title>
+</head>
+<body>
+    <h1>Exemplo Tela acessando JSON com Fetch API </h1>
+    <p>Nome: <span id="nome"></span></p>
+    <p>E-mail: <span id="email"></span></p>
+    <p>Time: <span id="time"></span></p>
+    <script>
+        async function obterDadosJson() {
+            let nome = "Chaves";
+            let email = "chaves@email.com";
+            let time = "Vitoria";
+
+            const httpResp = await fetch(
+                `/jackson2?nome=${nome}&email=${email}&time=${time}`);
+            if (!httpResp.ok) {
+                return;
+            }
+            const dados = await httpResp.json();
+            document.querySelector('#nome').textContent = dados.nome;
+            document.querySelector('#email').textContent = dados.email;
+            document.querySelector('#time').textContent = dados.time;
+        }
+        obterDadosJson();
+
+    </script>
+</body>
+</html>
