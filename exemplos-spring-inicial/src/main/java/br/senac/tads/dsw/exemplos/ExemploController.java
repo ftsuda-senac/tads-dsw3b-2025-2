@@ -2,6 +2,7 @@ package br.senac.tads.dsw.exemplos;
 
 import java.time.LocalDateTime;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +13,7 @@ public class ExemploController {
 
     private GeradorSaida geradorSaida = new GeradorSaidaJson();
 
-    @GetMapping
+    @GetMapping(produces = "application/json")
     @ResponseBody
     public String gerarJson(
             @RequestParam("nome") String nome,
