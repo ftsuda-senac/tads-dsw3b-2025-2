@@ -12,8 +12,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ExemploController {
 
-    @Autowired
-    private GeradorSaida geradorSaida;
+    private final GeradorSaida geradorSaida;
+
+    // Se existir somente este construtor,
+    // Spring injeta o bean através dele
+    public ExemploController(GeradorSaida geradorSaida) {
+        this.geradorSaida = geradorSaida;
+    }
 
     @GetMapping(produces = "application/json")
     @ResponseBody
