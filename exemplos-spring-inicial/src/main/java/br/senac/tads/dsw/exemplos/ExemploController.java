@@ -25,28 +25,12 @@ public class ExemploController {
         this.geradorSaida = geradorSaida;
     }
 
-    @GetMapping(produces = "application/json")
+    @GetMapping(path = "/jackson2")
     @ResponseBody
-    public String gerarJson(
-            @RequestParam("nome") String nome,
-            @RequestParam("email") String email) {
-        Dados dados = new Dados(nome, email, 
-            LocalDateTime.now(), "Bragantino");
-        return geradorSaida.gerarSaida(dados);
-    }
-
-    @GetMapping(path = "/jackson2", produces = "application/json")
-    @ResponseBody
-    public String gerarJsonComJackson2( @RequestParam("nome") String nome,
+    public Dados gerarJsonComJackson2( @RequestParam("nome") String nome,
             @RequestParam("email") String email, @RequestParam("time") String time) {
-        Dados dados = new Dados(nome, email, 
+        return new Dados(nome, email, 
             LocalDateTime.now(), time);
-        try {
-            String json = objectMapper.writeValueAsString(dados);
-            return json;
-        } catch (Exception ex) {
-            return "";
-        }
     }
 
 }
