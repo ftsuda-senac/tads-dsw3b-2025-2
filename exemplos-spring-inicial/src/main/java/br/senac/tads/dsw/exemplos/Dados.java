@@ -1,8 +1,17 @@
 package br.senac.tads.dsw.exemplos;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-public record Dados(String nome, String email, LocalDateTime dataHoraAtual) {
+public record Dados(String nome, String email, LocalDateTime dataHoraAtual, String time) {
+
+    public String getXpto() {
+        return "xpto";
+    }
+
+    public List<String> getInteresses() {
+        return List.of("Java", "Spring", "Javascript");
+    }
 
 }
 
