@@ -22,8 +22,8 @@ public class PessoaDto {
     public PessoaDto() {
     }
 
-    public PessoaDto(String username, String nome, LocalDate dataNascimento, String email, String telefone,
-            List<String> interesses, String senha) {
+    public PessoaDto(String username, String nome, LocalDate dataNascimento,
+            String email, String telefone, List<String> interesses, String senha) {
         this.username = username;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
