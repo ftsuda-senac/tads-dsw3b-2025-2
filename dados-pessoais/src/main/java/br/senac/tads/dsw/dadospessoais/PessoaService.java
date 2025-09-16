@@ -38,7 +38,8 @@ public class PessoaService {
     }
 
     public PessoaDto addNew(PessoaDto dto) {
-        return null;
+        mapPessoas.put(dto.getUsername(), dto);
+        return dto;
     }
 
     public PessoaDto update(String username, PessoaDto dto) {
