@@ -29,9 +29,13 @@ public class PessoaDto {
     @Size(min = 0, max = 20)
     private String telefone;
 
+    @Size(min = 1)
     private List<String> interesses;
 
     private String senha;
+
+    private String repeticaoSenha;
+
 
     public PessoaDto() {
     }
@@ -101,6 +105,14 @@ public class PessoaDto {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getRepeticaoSenha() {
+        return repeticaoSenha;
+    }
+
+    public void setRepeticaoSenha(String repeticaoSenha) {
+        this.repeticaoSenha = repeticaoSenha;
     }
 
 }
