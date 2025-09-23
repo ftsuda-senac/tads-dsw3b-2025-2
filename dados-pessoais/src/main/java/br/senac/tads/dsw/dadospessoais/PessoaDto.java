@@ -3,15 +3,20 @@ package br.senac.tads.dsw.dadospessoais;
 import java.time.LocalDate;
 import java.util.List;
 
+import br.senac.tads.dsw.dadospessoais.validacao.SenhasIguais;
+import br.senac.tads.dsw.dadospessoais.validacao.UsernameUnico;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
+@SenhasIguais
 public class PessoaDto {
 
     @NotBlank
     @Size(min = 3, max = 64)
+    @UsernameUnico
     private String username;
 
     @NotBlank
@@ -30,10 +35,12 @@ public class PessoaDto {
     private String telefone;
 
     @Size(min = 1)
-    private List<String> interesses;
+    private List<@NotEmpty String> interesses;
 
+    @NotBlank
     private String senha;
 
+    @NotBlank
     private String repeticaoSenha;
 
 
@@ -49,6 +56,7 @@ public class PessoaDto {
         this.telefone = telefone;
         this.interesses = interesses;
         this.senha = senha;
+        this.repeticaoSenha = senha;
     }
 
     public String getUsername() {
