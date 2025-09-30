@@ -26,12 +26,12 @@
         <h1>Dados pessoais</h1>
         <h2 id="tituloInclusao" class="d-none">Incluir nova pessoa</h2>
         <h2 id="tituloAlteracao" class="d-none">Alterar pessoa</h2>
-        <form method="post" id="formDados">
+        <form method="post" id="formDados" novalidate>
           <div class="row mb-3">
             <label for="txtUsername" class="col-sm-2 col-form-label">Apelido</label>
             <div class="col-sm-10">
               <input type="text" name="username" value="" id="txtUsername" placeholder="Preencha um username válido e único"
-                class="form-control" maxlength="100" required />
+                class="form-control" maxlength="64" required />
               <p class="invalid-feedback"></p>
             </div>
           </div>
@@ -133,7 +133,7 @@
       try {
         const httpResp = await fetch('http://localhost:8080/interesses');
         if (!httpResp.ok) {
-          throw new Error('Erro HTTP: Status Code ' + httpResp.statusCode);
+          throw new Error('Erro HTTP: Status Code ' + httpResp.status);
         }
         const dados = await httpResp.json();
         const elOpcoes = document.getElementById('opcoesInteresses');
@@ -142,7 +142,7 @@
           const elId = `interesse${dado}`
           const opcao = `
             <div class="form-check form-check-inline">
-              <input type="checkbox" name="interessesIds" value="${dado}" id="${elId}" class="form-check-input" />
+              <input type="checkbox" name="interesses" value="${dado}" id="${elId}" class="form-check-input" />
               <label for="${elId}" class="form-check-label">${dado}</label>
             </div>
           `;
@@ -157,7 +157,7 @@
       evt.preventDefault(); // Evita o envio de dados padrao do submit
       const elForm = evt.target;
       const interesses = [];
-      const opcoesInteresses = document.querySelectorAll('[name="interessesIds"]:checked');
+      const opcoesInteresses = document.querySelectorAll('[name="interesses"]:checked');
       for (const opcao of opcoesInteresses) {
         interesses.push(opcao.value);
       }
@@ -168,10 +168,22 @@
         dataNascimento: elForm.dataNascimento.value,
         telefone: elForm.telefone.value,
         senha: elForm.senha.value,
-        repeticaoSenha: elForm.senhaRepetida.value,
+        repeticaoSenha: elForm.repeticaoSenha.value,
         interesses: interesses
       }
       console.log(JSON.stringify(dados))
+
+      // Apagar o class 'is-invalid'
+      const elInputs = document.querySelectorAll('[name].is-invalid');
+      for (const el of elInputs) {
+        el.classList.remove('is-invalid');
+      }
+      // Apagar as mensagens de erro que foram apresentadas
+      const elMsg = document.querySelectorAll('[name] + p');
+      for (const el of elMsg) {
+        el.textContent = '';
+      }
+
       try {
         const httpResp = await fetch('http://localhost:8080/pessoas', {
           method: 'post',
@@ -181,8 +193,22 @@
           body: JSON.stringify(dados)
         });
         if (!httpResp.ok) {
+          if (httpResp.status === 400) {
+            const objErro = await httpResp.json();
+            for (const erro of objErro.errors) {
+              const elInput = document.querySelector(`[name="${erro.field}"]`);
+              if (elInput) {
+                elInput.classList.add('is-invalid');
+              }
+              const elMensagem = document.querySelector(`[name="${erro.field}"] + p`);
+              if (elMensagem) {
+                elMensagem.textContent = erro.defaultMessage;
+              }
+              
+            }
+          }
           // Tratamento dos erros
-          throw new Error('Erro HTTP: Status Code ' + httpResp.statusCode);
+          throw new Error('Erro HTTP: Status Code ' + httpResp.status);
         }
         alert('Pessoa cadastrada com sucesso');
       } catch (err) {

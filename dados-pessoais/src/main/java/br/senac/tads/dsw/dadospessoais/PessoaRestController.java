@@ -63,7 +63,7 @@ public class PessoaRestController {
     }
 
     @PutMapping("/{username}")
-    public ResponseEntity<PessoaDto> update(@PathVariable String username, 
+    public ResponseEntity<PessoaDto> update(@PathVariable @Valid String username, 
             @RequestBody @Valid PessoaDto input) {
         PessoaDto pessoa = service.findByUsername(username);
         if (pessoa == null) {
