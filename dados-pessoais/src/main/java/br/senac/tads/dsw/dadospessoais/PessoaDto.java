@@ -34,7 +34,7 @@ public class PessoaDto {
     @Size(min = 0, max = 20)
     private String telefone;
 
-    @Size(min = 1)
+    @Size(min = 1, message = "Selecione pelo menos 1 interesse")
     private List<@NotEmpty String> interesses;
 
     @NotBlank
