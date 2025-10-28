@@ -24,7 +24,8 @@ public class InteresseRestController {
 
     @GetMapping
     public List<String> findAll() {
-        return List.of("Java", "Spring Boot", "Javascript", "HTML", "CSS", "SQL");
+        return interesseRepository.findAll().stream() //
+            .map(InteresseEntity::getNome).toList();
     }
 
     @PostMapping("/criar-todos")
