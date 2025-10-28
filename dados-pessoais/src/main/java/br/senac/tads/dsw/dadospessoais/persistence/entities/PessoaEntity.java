@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -43,7 +44,7 @@ public class PessoaEntity {
     @OneToMany(mappedBy = "pessoa")
     private Set<FotoPessoaEntity> fotos;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "pessoa_interesse",
         joinColumns = @JoinColumn(name = "pessoa_id"),
         inverseJoinColumns = @JoinColumn(name = "interesse_id")

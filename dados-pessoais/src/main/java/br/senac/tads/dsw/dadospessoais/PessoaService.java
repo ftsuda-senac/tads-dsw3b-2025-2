@@ -10,7 +10,7 @@ public interface PessoaService {
 
     PessoaDto addNew(PessoaDto dto);
 
-    PessoaDto update(String username, PessoaDto dto);
+    PessoaDto update(String username, PessoaUpdateDto dto);
 
     void delete(String username);
 

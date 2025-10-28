@@ -70,7 +70,6 @@ public class PessoaServiceJpaImpl implements PessoaService {
         entity.setTelefone(dto.getTelefone());
         entity.setSenha(dto.getSenha());
 
-
         Set<InteresseEntity> interesses = new HashSet<>();
         for (String interesse : dto.getInteresses()) {
             Optional<InteresseEntity> optInteresse = interesseRepository.findByNomeIgnoreCase(interesse);
@@ -85,14 +84,34 @@ public class PessoaServiceJpaImpl implements PessoaService {
     }
 
     @Override
-    public PessoaDto update(String username, PessoaDto dto) {
-        // TODO Auto-generated method stub
-        return null;
+    public PessoaDto update(String username, PessoaUpdateDto dto) {
+        Optional<PessoaEntity> optEntity = pessoaRepository.findByUsername(username);
+
+        if (optEntity.isEmpty()) {
+            return null;
+        }
+        PessoaEntity entity = optEntity.get();
+        entity.setUsername(username);
+        entity.setNome(dto.getNome());
+        entity.setDataNascimento(dto.getDataNascimento());
+        entity.setEmail(dto.getEmail());
+        entity.setTelefone(dto.getTelefone());
+
+        Set<InteresseEntity> interesses = new HashSet<>();
+        for (String interesse : dto.getInteresses()) {
+            Optional<InteresseEntity> optInteresse = interesseRepository.findByNomeIgnoreCase(interesse);
+            if (optInteresse.isPresent()) {
+                interesses.add(optInteresse.get());
+            }
+        }
+        entity.setInteresses(interesses);
+        pessoaRepository.save(entity);
+        return toDto(entity);
     }
 
     @Override
     public void delete(String username) {
-        // TODO Auto-generated method stub
+        pessoaRepository.deleteByUsername(username);
         
     }
 

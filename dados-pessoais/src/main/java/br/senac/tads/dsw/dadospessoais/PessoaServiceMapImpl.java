@@ -45,7 +45,8 @@ public class PessoaServiceMapImpl implements PessoaService {
     }
 
     @Override
-    public PessoaDto update(String username, PessoaDto dto) {
+    public PessoaDto update(String username, PessoaUpdateDto dto) {
+        
         return null;
     }
 
