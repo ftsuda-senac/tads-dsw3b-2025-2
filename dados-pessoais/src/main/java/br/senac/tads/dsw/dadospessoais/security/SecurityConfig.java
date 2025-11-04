@@ -3,6 +3,7 @@ package br.senac.tads.dsw.dadospessoais.security;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,9 +16,13 @@ import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 public class SecurityConfig {
+
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthFilter;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -55,6 +60,8 @@ public class SecurityConfig {
                     .permitAll()
                     // .requestMatchers("/admin").hasAuthority("SCOPE_ADMIN")
                     .anyRequest().authenticated())
+                // Injetar e adicionar filtro JWT ANTES do filtro padrão de Username/Password
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

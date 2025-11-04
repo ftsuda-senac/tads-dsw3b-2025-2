@@ -18,6 +18,9 @@ public class LoginController {
     @Autowired
     private AuthenticationManager authManager;
 
+    @Autowired
+    private JwtService jwtService;
+
     @PostMapping
     public ResponseEntity<RespostaLogin> fazerLogin(@RequestBody Credencial credencial) {
         Authentication auth = authManager.authenticate(
@@ -28,7 +31,8 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         UsuarioSistema usuario = (UsuarioSistema) auth.getPrincipal();
-        return ResponseEntity.ok().body(new RespostaLogin(usuario.getNomeCompleto(), "token1234"));
+        String jwt = jwtService.gerarJwt(usuario);
+        return ResponseEntity.ok().body(new RespostaLogin(usuario.getNomeCompleto(), jwt));
     }
 
     public record Credencial(String username, String senha) {

@@ -22,7 +22,7 @@ public class UsuarioSistemaService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UsuarioSistema loadUserByUsername(String username) throws UsernameNotFoundException {
         UsuarioSistema usuario = mapUsuarios.get(username);
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuario %s não encontrado".formatted(username));
